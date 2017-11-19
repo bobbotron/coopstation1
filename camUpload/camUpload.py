@@ -6,6 +6,7 @@ import picamera
 import tinys3
 import configparser
 import time
+import os
 
 config = configparser.ConfigParser()
 config.read('camUpload.ini')
@@ -16,9 +17,16 @@ conn = tinys3.Connection(S3_ACCESS_KEY,S3_SECRET_KEY,tls=True)
 
 camera = picamera.PiCamera()
 image_file = config['camupload']['TempFileName']
-camera.capture(image_file)
 
-epoch_time = int(time.time())
+try:
+    print("Capturing image")
+    camera.capture(image_file)
+    print("Captured, now uploading")
 
-f = open(image_file,'rb')
-conn.upload('{:d}cam.jpg'.format(epoch_time),f, bucket=BUCKET_TARGET)
+    epoch_time = int(time.time())
+
+    f = open(image_file,'rb')
+    conn.upload('{:d}cam.jpg'.format(epoch_time),f, bucket=BUCKET_TARGET)
+    print("Upload complete")
+finally:
+    os.remove(image_file)

@@ -15,6 +15,8 @@ S3_SECRET_KEY = config['aws']['SecretKey']
 BUCKET_TARGET = config['aws']['BucketTarget']
 conn = tinys3.Connection(S3_ACCESS_KEY,S3_SECRET_KEY,tls=True)
 
+print("Initializing PiCamera")
+
 camera = picamera.PiCamera()
 image_file = config['camupload']['TempFileName']
 

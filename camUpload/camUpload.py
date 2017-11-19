@@ -16,5 +16,5 @@ camera.capture(image_file)
 
 epoch_time = int(time.time())
 
-f = open(imageFile,'rb')
+f = open(image_file,'rb')
 conn.upload('{:d}cam.jpg'.format(epoch_time),f, bucket=BUCKET_TARGET)

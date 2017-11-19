@@ -1,3 +1,7 @@
+""" This is a simple Python 3 script that takes a photo from a
+picamera and posts it to an AWS S3 bucket
+"""
+
 import picamera
 import tinys3
 import configparser

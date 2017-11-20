@@ -36,7 +36,7 @@ try:
     epoch_time = int(time.time())
 
     f = open(image_file,'rb')
-    conn.upload('{}{:d}cam.jpg'.format(s3_path_prefix, epoch_time),f, bucket=BUCKET_TARGET, expires=t)
+    conn.upload('{}{:d}cam.jpg'.format(s3_path_prefix, epoch_time),f, bucket=BUCKET_TARGET, expires=days_to_expire)
     print("Upload complete")
 finally:
     os.remove(image_file)

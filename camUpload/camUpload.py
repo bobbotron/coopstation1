@@ -60,6 +60,9 @@ def main():
         with open (image_file, "rb") as f:
             s3_image_file_name = '{}{:d}cam.jpg'.format(s3_path_prefix, epoch_time)
             conn.upload(s3_image_file_name, f, bucket=BUCKET_TARGET, expires=days_to_expire)
+
+        update_log(s3_image_file_name)
+
         with open (RECENT_LOG, "rb") as f:
             s3_image_file_name = '{}log.json'.format(s3_path_prefix)
             conn.upload(s3_image_file_name, f, bucket=BUCKET_TARGET)

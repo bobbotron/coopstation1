@@ -68,10 +68,11 @@ def main():
 
         with open(image_file, 'r+b') as image_file_handle:
             with Image.open(image_file_handle) as image:
-                cover = resizeimage.resize_cover(image, [320, 320])
+                cover = resizeimage.resize_contain(image, [480, 480])
                 cover.save(small_image_file, image.format)
 
         epoch_time = int(time.time())
+        timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 
         with open (image_file, "rb") as f:
             s3_image_file_name = '{}{:d}cam.jpg'.format(s3_path_prefix, epoch_time)
@@ -81,11 +82,11 @@ def main():
             s3_small_image_file_name = '{}{:d}smallcam.jpg'.format(s3_path_prefix, epoch_time)
             conn.upload(s3_small_image_file_name, f, bucket=BUCKET_TARGET, expires=days_to_expire)
 
-        update_log({"image":s3_image_file_name, "previewImage" : s3_small_image_file_name})
+        update_log({"image":s3_image_file_name, "previewImage" : s3_small_image_file_name, "timestamp": timestamp})
 
         with open (RECENT_LOG, "rb") as f:
-            s3_image_file_name = '{}log.json'.format(s3_path_prefix)
-            conn.upload(s3_image_file_name, f, bucket=BUCKET_TARGET)
+            s3_log = '{}log.json'.format(s3_path_prefix)
+            conn.upload(s3_log, f, bucket=BUCKET_TARGET)
         print("Upload complete")
     finally:
         os.remove(image_file)

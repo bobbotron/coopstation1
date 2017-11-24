@@ -68,6 +68,7 @@ def main():
 
         with open(image_file, 'r+b') as image_file_handle:
             with Image.open(image_file_handle) as image:
+                image = image.convert("RGB")
                 cover = resizeimage.resize_contain(image, [480, 480])
                 cover.save(small_image_file, image.format)
 

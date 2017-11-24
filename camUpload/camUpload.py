@@ -93,5 +93,6 @@ def main():
         print("Upload complete")
     finally:
         os.remove(image_file)
+        os.remove(small_image_file)
 
 main()

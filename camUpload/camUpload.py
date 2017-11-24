@@ -29,7 +29,7 @@ def update_log(entry):
             json.dump(entries, log_file)
     cur_log = read_recent_log()
     cur_log.append(entry)
-    while len(cur_log) > 10:
+    while len(cur_log) > 60:
         del cur_log[0]
     write_log(cur_log)
     return cur_log

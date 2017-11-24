@@ -13,6 +13,7 @@ import json
 from time import sleep
 from PIL import Image
 from resizeimage import resizeimage
+import datetime
 
 RECENT_LOG = 'recent.log'
 
@@ -70,6 +71,7 @@ def main():
             with Image.open(image_file_handle) as image:
                 image = image.convert("RGB")
                 cover = resizeimage.resize_contain(image, [480, 480])
+                cover = cover.convert("RGB")
                 cover.save(small_image_file, image.format)
 
         epoch_time = int(time.time())

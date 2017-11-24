@@ -5,12 +5,14 @@ function loadLog()
     var output = $('#photoOutput');
     function addImage(img)
     {
-      var element = '<div class="coop-photo"><img class="coop-photo-img" src="https://s3.amazonaws.com/camuploadbobbotron/'+img+'"/></div>';
+      var element = '<div><div class="coop-photo"><a href="https://s3.amazonaws.com/camuploadbobbotron/'+img['image']+'"><img class="coop-photo-img" src="https://s3.amazonaws.com/camuploadbobbotron/'+img['previewImage']+'"/></a></div><p class="timestamp">'+img["timestamp"]+'</p></div>';
+
       // console.log("Appending " + element );
       // todo animation on image load?
       output.append(element);
     }
     data.reverse().forEach(addImage);
+    $('.loading-area').fadeOut();
   }
   $.getJSON(
   "https://s3.amazonaws.com/camuploadbobbotron/coop1/log.json",

@@ -50,7 +50,6 @@ def main():
     print("Initializing PiCamera")
 
     camera = picamera.PiCamera()
-    camera.exposure_mode = "night"
     # warm up the camera before you use it!
     sleep(5)
 

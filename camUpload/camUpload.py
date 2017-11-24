@@ -10,6 +10,9 @@ import os
 import os.path
 from datetime import timedelta
 import json
+from time import sleep
+from PIL import Image
+from resizeimage import resizeimage
 
 RECENT_LOG = 'recent.log'
 
@@ -46,14 +49,27 @@ def main():
     print("Initializing PiCamera")
 
     camera = picamera.PiCamera()
+    camera.exposure_mode = "night"
+    # warm up the camera before you use it!
+    sleep(5)
+
     image_file = config[cam_upload_config_key]['TempFileName']
+    small_image_file = "small{}".format(image_file)
     s3_path_prefix = config[cam_upload_config_key]['S3PathPrefix']
     days_to_expire = timedelta(days=int(config[cam_upload_config_key]['DaysToExpire']))
 
     try:
         print("Capturing image")
-        camera.capture(image_file)
+        try:
+            camera.capture(image_file)
+        finally:
+            camera.close()
         print("Captured, now uploading")
+
+        with open(image_file, 'r+b') as image_file_handle:
+            with Image.open(image_file_handle) as image:
+                cover = resizeimage.resize_cover(image, [320, 320])
+                cover.save(small_image_file, image.format)
 
         epoch_time = int(time.time())
 
@@ -61,7 +77,11 @@ def main():
             s3_image_file_name = '{}{:d}cam.jpg'.format(s3_path_prefix, epoch_time)
             conn.upload(s3_image_file_name, f, bucket=BUCKET_TARGET, expires=days_to_expire)
 
-        update_log(s3_image_file_name)
+        with open (small_image_file, "rb") as f:
+            s3_small_image_file_name = '{}{:d}smallcam.jpg'.format(s3_path_prefix, epoch_time)
+            conn.upload(s3_small_image_file_name, f, bucket=BUCKET_TARGET, expires=days_to_expire)
+
+        update_log({"image":s3_image_file_name, "previewImage" : s3_small_image_file_name})
 
         with open (RECENT_LOG, "rb") as f:
             s3_image_file_name = '{}log.json'.format(s3_path_prefix)

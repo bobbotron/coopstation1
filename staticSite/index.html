@@ -19,14 +19,26 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-8">
+      </div>
+      <div class="row">
+        <div class="col-md-6">
           <div class="panel panel-default">
             <div class="panel-heading">Coop Station 1</div>
             <div class="panel-body">
-              <div id="photoOutput">
+              <div id="animation-window">
                 <div class="loading-area">
-                  <h3><span class="label label-default">Loading...</span></h3>
+                  <h3><span class="label label-default">Loading timelapse... <span class="load-status"></span></span></h3>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;">
+                      <span class="sr-only">60% Complete</span>
+                    </div>
+                  </div>
                 </div>
+                <img class="coop-photo-img" id="animationTarget" />
+                <p class="timestamp"/>
+              </div>
+              <div id="photoOutput" class="hidden">
+
               </div>
             </div>
           </div>

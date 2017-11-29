@@ -16,7 +16,7 @@ from resizeimage import resizeimage
 import datetime
 
 RECENT_LOG = 'recent.log'
-MAX_RECORDS = 140
+MAX_RECORDS = 180
 
 def update_log(entry):
     def read_recent_log():

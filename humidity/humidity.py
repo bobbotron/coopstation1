@@ -17,7 +17,7 @@ def main():
     config = configparser.ConfigParser()
     aws_config_key = 'aws'
 
-    config.read('camUpload.ini')
+    config.read('humidity.ini')
 
     API_KEY = config[aws_config_key]['APIKey']
     GPIO_PIN = config[aws_config_key]['GPIOPin']

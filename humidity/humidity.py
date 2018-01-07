@@ -28,5 +28,5 @@ def main():
     datetime = int(round(time.time() * 1000))
     payload = json.dumps({'sensor_id': SENSOR_ID, 'humidity': humidity, 'datetime': 45})
     r = requests.post(REST_URL, headers={'x-api-key': API_KEY, 'Accept': 'application/json', 'Content-type': 'application/json'}, data=payload)
-
+    print('Return code {}'.format(r.status_code))
 main()

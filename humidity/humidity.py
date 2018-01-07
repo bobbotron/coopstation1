@@ -26,7 +26,7 @@ def main():
     #humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, GPIO_PIN)
     humidity = 0.2
     datetime = int(round(time.time() * 1000))
-    payload = json.dumps({'sensor_id': SENSOR_ID, 'humidity': humidity, 'datetime': 45})
+    payload = json.dumps({'sensor_id': SENSOR_ID, 'humidity': humidity, 'datetime': datetime})
     r = requests.post(REST_URL, headers={'x-api-key': API_KEY, 'Accept': 'application/json', 'Content-type': 'application/json'}, data=payload)
     print('Return code {}'.format(r.status_code))
 main()

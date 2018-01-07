@@ -8,7 +8,6 @@ import os
 import os.path
 from datetime import timedelta
 import json
-from time import sleep
 import datetime
 import requests
 #import Adafruit_DHT
@@ -24,10 +23,9 @@ def main():
     REST_URL = config[aws_config_key]['RestUrl']
     SENSOR_ID = config[aws_config_key]['SensorID']
 
-
     #humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, GPIO_PIN)
     humidity = 0.2
-    datetime = '45'
+    datetime = int(round(time.time() * 1000))
     payload = json.dumps({'sensor_id': SENSOR_ID, 'humidity': humidity, 'datetime': 45})
     r = requests.post(REST_URL, headers={'x-api-key': API_KEY, 'Accept': 'application/json', 'Content-type': 'application/json'}, data=payload)
 

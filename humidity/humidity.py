@@ -10,7 +10,7 @@ from datetime import timedelta
 import json
 import datetime
 import requests
-#import Adafruit_DHT
+import Adafruit_DHT
 
 def main():
     config = configparser.ConfigParser()
@@ -23,8 +23,8 @@ def main():
     REST_URL = config[aws_config_key]['RestUrl']
     SENSOR_ID = config[aws_config_key]['SensorID']
 
-    #humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, GPIO_PIN)
-    humidity = 0.2
+    humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, GPIO_PIN)
+    #humidity = 0.2
     datetime = int(round(time.time() * 1000))
     payload = json.dumps({'sensor_id': SENSOR_ID, 'humidity': humidity, 'datetime': datetime})
     print('Sending payload to server {}'.format(payload))
